@@ -52,10 +52,10 @@
             {
                 Title = "Confirmación",
                 Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
+                Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
-                CancelButtonText = "Sí",
-                ConfirmButtonText = "No"
+                CancelButtonText = "No",
+                ConfirmButtonText = "Sí"
             });
 
         var confirm = !string.IsNullOrEmpty(result.Value);
