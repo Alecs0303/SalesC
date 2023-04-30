@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Share", "Sales.Share\Sales.Share.csproj", "{01D2444C-3E5E-4B7C-A04E-EA7D04950C32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Share", "Sales.Share\Sales.Share.csproj", "{01D2444C-3E5E-4B7C-A04E-EA7D04950C32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.API", "Sales.API\Sales.API.csproj", "{98FD48E7-9D3E-410F-9C33-17C04F13A009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.API", "Sales.API\Sales.API.csproj", "{98FD48E7-9D3E-410F-9C33-17C04F13A009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.WEB", "Sales.WEB\Sales.WEB.csproj", "{7D3A9D08-B97E-48FF-8670-65543A05A272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.WEB", "Sales.WEB\Sales.WEB.csproj", "{7D3A9D08-B97E-48FF-8670-65543A05A272}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
