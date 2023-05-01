@@ -23,29 +23,29 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHTTP = await repository.Get<Country>($"/api/countries/{Id}");
+        var responseHttp = await repository.Get<Country>($"/api/countries/{Id}");
 
-        if (responseHTTP.Error)
+        if (responseHttp.Error)
         {
-            if (responseHTTP.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
                 navigationManager.NavigateTo("/countries");
                 return;
             }
-            var message = await responseHTTP.GetErrorMessageAsync();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        country = responseHTTP.Response;
+        country = responseHttp.Response;
     }
 
     private async Task EditAsync()
     {
-        var responseHTTP = await repository.Put("/api/countries", country);
+        var responseHttp = await repository.Put("/api/countries", country);
 
-        if (responseHTTP.Error)
+        if (responseHttp.Error)
         {
-            var message = await responseHTTP.GetErrorMessageAsync();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

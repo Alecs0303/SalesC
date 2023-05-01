@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json;
 
 namespace Sales.WEB.Repostories
 {
@@ -17,7 +17,7 @@ namespace Sales.WEB.Repostories
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseWrapper<T>> GetAsync<T>(string url)
+        public async Task<HttpResponseWrapper<T>> Get<T>(string url)
         {
             var responseHttp = await _httpClient.GetAsync(url);
             if (responseHttp.IsSuccessStatusCode)
@@ -29,7 +29,7 @@ namespace Sales.WEB.Repostories
             return new HttpResponseWrapper<T>(default, true, responseHttp);
         }
 
-        public async Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model)
+        public async Task<HttpResponseWrapper<object>> Post<T>(string url, T model)
         {
             var mesageJSON = JsonSerializer.Serialize(model);
             var messageContet = new StringContent(mesageJSON, Encoding.UTF8, "application/json");
@@ -37,7 +37,7 @@ namespace Sales.WEB.Repostories
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
-        public async Task<HttpResponseWrapper<TResponse>> PostAsync<T, TResponse>(string url, T model)
+        public async Task<HttpResponseWrapper<TResponse>> Post<T, TResponse>(string url, T model)
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContet = new StringContent(messageJSON, Encoding.UTF8, "application/json");
@@ -50,13 +50,19 @@ namespace Sales.WEB.Repostories
             return new HttpResponseWrapper<TResponse>(default, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
-        public async Task<HttpResponseWrapper<object>> DeleteAsync(string url)
+        private async Task<T> UnserializeAnswer<T>(HttpResponseMessage httpResponse, JsonSerializerOptions jsonSerializerOptions)
+        {
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(responseString, jsonSerializerOptions)!;
+        }
+
+        public async Task<HttpResponseWrapper<object>> Delete<T>(string url)
         {
             var responseHTTP = await _httpClient.DeleteAsync(url);
             return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
         }
 
-        public async Task<HttpResponseWrapper<object>> PutAsync<T>(string url, T model)
+        public async Task<HttpResponseWrapper<object>> Put<T>(string url, T model)
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
@@ -64,7 +70,7 @@ namespace Sales.WEB.Repostories
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
-        public async Task<HttpResponseWrapper<TResponse>> PutAsync<T, TResponse>(string url, T model)
+        public async Task<HttpResponseWrapper<TResponse>> Put<T, TResponse>(string url, T model)
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
@@ -74,40 +80,7 @@ namespace Sales.WEB.Repostories
                 var response = await UnserializeAnswer<TResponse>(responseHttp, _jsonDefaultOptions);
                 return new HttpResponseWrapper<TResponse>(response, false, responseHttp);
             }
-
             return new HttpResponseWrapper<TResponse>(default, !responseHttp.IsSuccessStatusCode, responseHttp);
-        }
-
-        private async Task<T> UnserializeAnswer<T>(HttpResponseMessage httpResponse, JsonSerializerOptions jsonSerializerOptions)
-        {
-            var responseString = await httpResponse.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(responseString, jsonSerializerOptions)!;
-        }
-
-        public Task<HttpResponseWrapper<T>> Get<T>(string url)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseWrapper<object>> Post<T>(string url, T model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseWrapper<TResponse>> Post<T, TResponse>(string url, T model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseWrapper<object>> Put<T>(string url, T model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseWrapper<TResponse>> Put<T, TResponse>(string url, T model)
-        {
-            throw new NotImplementedException();
         }
     }
 }
-
