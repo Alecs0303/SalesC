@@ -5,15 +5,16 @@
 
 <h3>Países</h3>
 
-<a class="btn btn-primary" href="/countries/create">Nuevo País</a>
+<div class="mb-3"><a class="btn btn-primary" href="/countries/create">Nuevo País</a></div>
 
 <GenericList MyList="Countries">
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>
                     <th>País</th>
+                    <th>Estados / Departamentos</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,11 +22,14 @@
                 {
                     <tr>
                         <td>
-                            <a class="btn btn-warning" href="/countries/edit/@country.Id">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(()=> DeleteAsync(country.Id))>Borrar</button>
+                            @country.Name
                         </td>
                         <td>
-                            @country.Name
+                            @country.StatesNumber
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="/countries/edit/@country.Id">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(country.Id))>Borrar</button>
                         </td>
                     </tr>
                 }
@@ -35,7 +39,7 @@
 </GenericList>
 
 @code {
-    public List<Country>? Countries { get; set; }
+    private List<Country>? Countries { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,7 +48,7 @@
 
     private async Task LoadAsync()
     {
-        var responseHppt = await repository.Get<List<Country>>("/api/countries");
+        var responseHppt = await repository.GetAsync<List<Country>>("/api/countries");
         Countries = responseHppt.Response;
     }
 
@@ -53,7 +57,7 @@
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = "¿Esta seguro de que desea borrar el registro?",
+                Text = "¿Está seguro de que desea borrar el registro?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
                 CancelButtonText = "No",
@@ -77,8 +81,7 @@
                 return;
             }
         }
-        
+
         await LoadAsync();
     }
-
 }

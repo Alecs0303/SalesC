@@ -11,7 +11,7 @@
 }
 else
 {
-    <CountryForm @ref="countryForm" Country="country" OnValidSubmit="EditAsync" ReturnAction="Return" />
+    <CountryForm @ref="countryForm" Country="country" OnValidSubmit="EditAsync" ReturnAction="Return"/>
 }
 
 @code {
@@ -23,7 +23,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await repository.Get<Country>($"/api/countries/{Id}");
+        var responseHttp = await repository.GetAsync<Country>($"/api/countries/{Id}");
 
         if (responseHttp.Error)
         {
@@ -41,7 +41,7 @@ else
 
     private async Task EditAsync()
     {
-        var responseHttp = await repository.Put("/api/countries", country);
+        var responseHttp = await repository.PutAsync("/api/countries", country);
 
         if (responseHttp.Error)
         {
