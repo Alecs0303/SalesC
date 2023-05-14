@@ -1,4 +1,4 @@
-﻿namespace Sales.WEB.Repostories
+﻿namespace Sales.WEB.Repositories
 {
     public interface IRepository
     {

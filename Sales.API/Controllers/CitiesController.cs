@@ -6,11 +6,12 @@ using Sales.Share.Entities;
 namespace Sales.API.Controllers
 {
     [ApiController]
-    [Route("/api/states")]
-    public class StatesController : ControllerBase
+    [Route("/api/cities")]
+    public class CitiesController : ControllerBase
     {
         private readonly DataContext _context;
-        public StatesController(DataContext context)
+
+        public CitiesController(DataContext context)
         {
             _context = context;
         }
@@ -18,52 +19,48 @@ namespace Sales.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.States
-                .Include(x => x.Cities)
-                .ToListAsync());
+            return Ok(await _context.Cities.ToListAsync());
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var state = await _context.States
-                .Include(x => x.Cities!)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (state == null)
+            var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == id);
+            if (city == null)
             {
                 return NotFound();
             }
-            return Ok(state);
+            return Ok(city);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var state = await _context.States.FirstOrDefaultAsync(x => x.Id == id);
-            if (state == null)
+            var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == id);
+            if (city == null)
             {
                 return NotFound();
             }
 
-            _context.Remove(state);
+            _context.Remove(city);
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(State state)
+        public async Task<IActionResult> PostAsync(City city)
         {
             try
             {
-                _context.Add(state);
+                _context.Add(city);
                 await _context.SaveChangesAsync();
-                return Ok(state);
+                return Ok(city);
             }
             catch (DbUpdateException dbUpdateException)
             {
                 if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe un estado/departamento con el mismo nombre");
+                    return BadRequest("Ya existe una ciudad con el mismo nombre");
                 }
                 return BadRequest(dbUpdateException.Message);
             }
@@ -74,19 +71,19 @@ namespace Sales.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutAsync(State state)
+        public async Task<IActionResult> PutAsync(City city)
         {
             try
             {
-                _context.Update(state);
+                _context.Update(city);
                 await _context.SaveChangesAsync();
-                return Ok(state);
+                return Ok(city);
             }
             catch (DbUpdateException dbUpdateException)
             {
                 if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe un estado/departamento con el mismo nombre.");
+                    return BadRequest("Ya existe una ciudad con el mismo nombre.");
                 }
                 return BadRequest(dbUpdateException.Message);
             }
