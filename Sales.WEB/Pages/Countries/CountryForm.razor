@@ -2,7 +2,7 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm Model="Country" OnValidSubmit="OnValidSubmit">
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label>País:</label>
@@ -25,7 +25,7 @@
     }
 
     public bool FormPostedSuccessfully { get; set; } = false;
-    
+
     [EditorRequired]
     [Parameter]
     public Country Country { get; set; } = null!;
@@ -36,7 +36,7 @@
 
     [EditorRequired]
     [Parameter]
-    public EventCallback ReturnAction { get; set; }
+    public EventCallback ReturnAction { get; set; }   
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
@@ -53,8 +53,8 @@
                 Text = "¿Deseas abandonar la página y perder los cambios?",
                 Icon = SweetAlertIcon.Warning,
                 ShowCancelButton = true,
-                CancelButtonText = "No",
-                ConfirmButtonText = "Sí"
+                //CancelButtonText = "No",
+                //ConfirmButtonText = "Sí"
             });
 
         var confirm = !string.IsNullOrEmpty(result.Value);
@@ -66,7 +66,5 @@
 
         context.PreventNavigation();
     }
-
-}
 
 }
