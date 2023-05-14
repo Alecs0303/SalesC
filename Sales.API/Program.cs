@@ -11,6 +11,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
 builder.Services.AddTransient<SeedDb>();
 
+//AddSingleton: the object stays on the memory all time
+//AddScope: a new object is injected when necessary
+//AddTrasient: it is injected once
+
 var app = builder.Build();
 
 SeedData(app);

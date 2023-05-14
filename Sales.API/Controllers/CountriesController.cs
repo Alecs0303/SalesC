@@ -20,7 +20,7 @@ namespace Sales.API.Controllers
         public async Task<IActionResult> GetAsync()
         {
             return Ok(await _context.Countries
-                .Include(x => x.States)
+                .Include(x => x.States) //Inner Join
                 .ToListAsync());
         }
 
@@ -61,9 +61,10 @@ namespace Sales.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(Country country)
         {
-            _context.Add(country);
+            
             try
             {
+                _context.Add(country);
                 await _context.SaveChangesAsync();
                 return Ok(country);
             }
@@ -84,9 +85,9 @@ namespace Sales.API.Controllers
         [HttpPut]
         public async Task<IActionResult> PutAsync(Country country)
         {
-            _context.Update(country);
             try
             {
+                _context.Update(country);
                 await _context.SaveChangesAsync();
                 return Ok(country);
             }
