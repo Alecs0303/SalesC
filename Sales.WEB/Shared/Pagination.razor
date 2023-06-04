@@ -51,7 +51,6 @@
                 Page = linkNextPage,
                 Enable = linkNextEnable
             });
-
     }
 
     private async Task InternalSelectedPage(PageModel pageModel)
@@ -60,7 +59,6 @@
         {
             return;
         }
-
         await SelectedPage.InvokeAsync(pageModel.Page);
     }
 
