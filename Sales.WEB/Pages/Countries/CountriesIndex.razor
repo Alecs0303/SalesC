@@ -7,8 +7,8 @@
 
 <div class="mb-3"><a class="btn btn-primary" href="/countries/create">Nuevo País</a></div>
 
-<Pagination CurrentPage="1"
-            TotalPages="10"
+<Pagination CurrentPage="currentPage"
+            TotalPages="totalPages"
             SelectedPage="SelectedPage" />
 
 <GenericList MyList="Countries">
@@ -45,23 +45,30 @@
 
 @code {
     private List<Country>? Countries { get; set; }
+    private int currentPage = 1;
+    private int totalPages;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
     }
 
-    private async Task LoadAsync()
+    private async Task LoadAsync(int page = 1)
     {
-        var responseHppt = await repository.GetAsync<List<Country>>("/api/countries");
-        Countries = responseHppt.Response;
+        string url1 = $"api/countries?page={page}";
+        string url2 = $"api/countries/totalPages";
+
+        var responseHppt = await repository.GetAsync<List<Country>>(url1);
+        var responseHppt2 = await repository.GetAsync<int>(url2);
+        Countries = responseHppt.Response!;
+        totalPages = responseHppt2.Response!;
     }
 
     private async Task SelectedPage(int page)
     {
-
+        currentPage = page;
+        await LoadAsync(page);
     }
-
 
     private async Task DeleteAsync(int id)
     {
